@@ -40,7 +40,7 @@ func read(conn net.Conn) {
 			data = strconv.Itoa(firt * second)
 		}
 		conn.Write([]byte(data + "\n"))
-		time.Sleep(1 * time.Second)
+		time.Sleep(300 * time.Millisecond)
 	}
 
 }
